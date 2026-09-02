@@ -1,8 +1,15 @@
 "use client";
 import * as React from "react";
 import { Input } from "@/components/core/input";
+import {
+  parseNumber,
+  sanitize,
+  toEmittedValue,
+  toSettledNumber,
+  type NumberInputMode,
+} from "./numeric-entry";
 
-export type NumberInputMode = "POSITIVE_INTEGERS" | "INTEGERS" | "FLOATS";
+export type { NumberInputMode };
 
 export interface NumberInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type"> {
@@ -31,22 +38,6 @@ function formatNumber(value: number | string | undefined, mode: NumberInputMode,
   return value.toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
-function allowedCharsPattern(mode: NumberInputMode): RegExp {
-  if (mode === "FLOATS") return /[^\d.-]/g;
-  if (mode === "INTEGERS") return /[^\d-]/g;
-  return /[^\d]/g;
-}
-
-function parseNumber(raw: string, mode: NumberInputMode): number | string {
-  const sanitized = raw.replace(allowedCharsPattern(mode), "");
-
-  if (sanitized === "" || sanitized === "-" || sanitized === ".") return 0;
-  if (mode === "FLOATS" && sanitized.endsWith(".")) return sanitized;
-
-  const num = mode === "FLOATS" ? parseFloat(sanitized) : parseInt(sanitized, 10);
-  return isNaN(num) ? 0 : num;
-}
-
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   (
     {
@@ -71,54 +62,40 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       // Only overwrite display when the numeric value differs from what's shown,
       // so an externally-driven change (e.g. reset to 0) takes effect without
       // stomping an in-progress decimal like "1000.".
-      const current = mode === "FLOATS"
-        ? parseFloat(display.replace(/,/g, ""))
-        : parseInt(display.replace(/,/g, ""), 10);
+      const current = toSettledNumber(sanitize(display, mode), mode);
       if (current !== value) setDisplay(formatNumber(value, mode, maxDecimals));
     }, [value, mode, maxDecimals]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const raw = e.target.value;
-      const sanitized = raw.replace(allowedCharsPattern(mode), "");
+      const sanitized = sanitize(e.target.value, mode);
 
       if (mode === "FLOATS") {
         const parts = sanitized.split(".");
         if (parts.length > 1 && parts[1] && parts[1].length > maxDecimals) return;
-
-        if (raw.endsWith(".") || raw.endsWith(".0") || sanitized === "-") {
-          setDisplay(raw);
-          onChange?.(raw);
-          return;
-        }
       }
 
-      if (mode === "INTEGERS" && sanitized === "-") {
-        setDisplay("-");
-        onChange?.("-");
-        return;
-      }
+      const parsed = parseNumber(sanitized, mode);
 
-      const parsed = parseNumber(raw, mode);
-      setDisplay(typeof parsed === "number" ? formatNumber(parsed, mode, maxDecimals) : raw);
-      onChange?.(parsed);
+      // A string result is a partial entry — show it as typed. Anything else is
+      // a real number and gets re-grouped for display. Either way the value
+      // passed out is sanitized, never the raw separator-laden input.
+      setDisplay(typeof parsed === "number" ? formatNumber(parsed, mode, maxDecimals) : sanitized);
+      onChange?.(toEmittedValue(parsed));
     };
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-      const raw = e.target.value;
-      if (raw === "" || raw === "-" || raw === ".") {
-        setDisplay("0");
-        onChange?.(0);
-      } else if (mode === "FLOATS" && (raw.endsWith(".") || raw.endsWith(".0"))) {
-        const num = parseFloat(raw);
-        const final = isNaN(num) ? 0 : num;
-        setDisplay(formatNumber(final, mode, maxDecimals));
-        onChange?.(final);
-      }
+      // Blur always settles on a number: a partial entry left in the field would
+      // otherwise escape to the consumer as an unparseable string.
+      const final = toSettledNumber(sanitize(e.target.value, mode), mode);
+
+      setDisplay(formatNumber(final, mode, maxDecimals));
+      onChange?.(final);
+
       onBlur?.(e);
     };
 
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-      setDisplay(e.target.value.replace(/,/g, ""));
+      setDisplay(sanitize(e.target.value, mode));
       onFocus?.(e);
     };
 
