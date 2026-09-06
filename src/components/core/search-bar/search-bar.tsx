@@ -127,7 +127,7 @@ export const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
               "inline-flex items-center justify-center gap-1.5",
               "h-[var(--height-input)] px-4",
               "rounded-[var(--radius-md)]",
-              "bg-[var(--color-accent-500)] text-white text-sm font-medium",
+              "bg-[var(--color-accent-500)] text-[var(--color-on-accent)] text-sm font-medium",
               "shadow-[var(--shadow-sm)]",
               "transition-all duration-[var(--duration-base)]",
               "hover:bg-[var(--color-accent-600)]",

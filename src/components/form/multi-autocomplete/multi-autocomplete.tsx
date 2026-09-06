@@ -3,6 +3,7 @@ import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { Check, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePortalContainer } from "@/components/core/portal-container";
 
 export interface MultiAutocompleteOption {
   label: string;
@@ -43,6 +44,7 @@ export const MultiAutocomplete = React.forwardRef<HTMLInputElement, MultiAutocom
     ref
   ) => {
     const isControlled = value !== undefined && onChange !== undefined;
+    const portalContainer = usePortalContainer();
     const [internalValue, setInternalValue] = React.useState<string[]>(value ?? []);
     const resolvedValue = isControlled ? value! : internalValue;
 
@@ -181,7 +183,7 @@ export const MultiAutocomplete = React.forwardRef<HTMLInputElement, MultiAutocom
               />
             </div>
           </Popover.Anchor>
-          <Popover.Portal>
+          <Popover.Portal container={portalContainer}>
             <Popover.Content
               onOpenAutoFocus={(e) => e.preventDefault()}
               onMouseDown={() => { mouseDownInDropdown.current = true; }}

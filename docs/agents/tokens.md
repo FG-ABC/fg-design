@@ -39,7 +39,7 @@ All tokens are CSS custom properties defined in `src/styles/tokens.css` under `@
 | `--color-surface` | `#f5f4f2` | Subtle backgrounds, hover states                                                                     |
 | `--color-overlay` | `#efefed` | Deeper backgrounds, skeleton                                                                         |
 | `--color-border`  | `#e4e3e0` | All borders, dividers                                                                                |
-| `--color-muted`   | `#c9c7c3` | Placeholder text, disabled icons — **never use for content text**                                    |
+| `--color-muted`   | `#9e9c98` | Placeholder text, disabled icons — **never use for content text**                                    |
 | `--color-subtle`  | `#8f8d89` | Interactive icons, decorative elements — **only use for content text when explicitly de-emphasised** |
 | `--color-base`    | `#3d3c3a` | Default body text                                                                                    |
 | `--color-ink`     | `#1a1917` | Headings, high-emphasis text — **prefer for all content text**                                       |
@@ -56,6 +56,20 @@ All tokens are CSS custom properties defined in `src/styles/tokens.css` under `@
 | `--color-accent-600` | Button hover                                 |
 | `--color-accent-700` | Button active, badge text                    |
 | `--color-accent-900` | Darkest accent                               |
+
+
+### Foreground on accent
+
+| Token               | Value     | Use for                                                                    |
+| ------------------- | --------- | -------------------------------------------------------------------------- |
+| `--color-on-accent` | `#ffffff` | Text/icons sitting **on** an accent fill — button label, checkbox tick, toggle knob |
+
+Any content on `--color-accent-500` must use this token, never a literal `text-white`.
+It must clear **4.5:1** against your `--color-accent-500`. White is fine for a dark accent;
+a light accent (amber, lime, pastel) requires a dark ink here instead.
+
+In dark mode the accent ramp inverts — `--color-accent-500` becomes light — so
+`--color-on-accent` is dark ink there. Override both together.
 
 ### Semantic
 

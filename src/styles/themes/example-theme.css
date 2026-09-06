@@ -1,0 +1,103 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Example theme — starting point for a new site.
+
+   Import AFTER the fg-design stylesheet so these win the cascade:
+
+     @import "fg-design/styles";          (Tailwind v4)
+     @import "fg-design/styles/variables"; (Tailwind v3 / plain CSS)
+     @import "./themes/example-theme.css";
+
+   Components read these variables at runtime, so overriding them restyles
+   the whole library. No forking, no copied components, no lost upgrades.
+
+   Scope to a class instead of :root if two themes share a page:
+     .theme-marketing { --color-accent-500: ...; }
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ─── Accent ramp ────────────────────────────────────────────────────
+     PLACEHOLDER — a neutral slate, deliberately not the forest green, so
+     it is obvious this has not been branded yet.
+
+     To rebrand: replace all 10 stops. 500 is the primary fill; 600/700 are
+     the hover/active states and must stay progressively darker (in light
+     mode) or the button will look flat when pressed. 50–200 are tints used
+     for subtle backgrounds; 800–900 are used sparingly.
+
+     Keep --color-on-accent in sync — see the contrast note below.
+  */
+  --color-accent-50:  #f6f7f9;
+  --color-accent-100: #eceef2;
+  --color-accent-200: #d5d9e2;
+  --color-accent-300: #b0b8c9;
+  --color-accent-400: #7d8AA3;
+  --color-accent-500: #4a5568;
+  --color-accent-600: #3d4757;
+  --color-accent-700: #313947;
+  --color-accent-800: #262c37;
+  --color-accent-900: #1a1f27;
+
+  /* ─── Foreground on accent ───────────────────────────────────────────
+     The button label, checkbox tick and toggle knob sit on --color-accent-500.
+     This MUST clear 4.5:1 against it (WCAG AA for normal text).
+
+     White works on any accent-500 dark enough. If you move to a LIGHT accent
+     — amber, lime, cyan, pastel — white will fail and you must switch this to
+     a dark ink (e.g. --color-accent-900).
+
+     Slate #4a5568 vs white = 7.53:1 ✓
+  */
+  --color-on-accent: #ffffff;
+
+  /* ─── Radius ─────────────────────────────────────────────────────────
+     Left at the fg-design defaults on purpose: pill buttons are applied
+     per-component (see below) rather than by inflating the shared scale,
+     so inputs, cards and modals keep their current geometry.
+
+     If you later want the whole system rounder, override here instead —
+     these are shared, so a change reaches inputs and cards too:
+       --radius-md: 16px;
+       --radius-lg: 22px;
+  */
+}
+
+/* ─── Dark mode ─────────────────────────────────────────────────────────
+   The library flips the accent ramp for dark backgrounds, so a dark-mode
+   accent-500 is typically LIGHTER than its light-mode counterpart. When you
+   brand this, re-check --color-on-accent here: white on a light accent fails.
+*/
+[data-theme="dark"] {
+  --color-accent-50:  #1a1f27;
+  --color-accent-100: #262c37;
+  --color-accent-200: #313947;
+  --color-accent-300: #3d4757;
+  --color-accent-400: #4a5568;
+  --color-accent-500: #b0b8c9;
+  --color-accent-600: #d5d9e2;
+  --color-accent-700: #eceef2;
+  --color-accent-800: #f6f7f9;
+  --color-accent-900: #ffffff;
+
+  /* Dark ink on the light slate accent — white here would be ~1.6:1. */
+  --color-on-accent: #1a1f27;
+}
+
+/* ─── Pill buttons ──────────────────────────────────────────────────────
+   Buttons fully rounded; inputs, cards and modals keep their geometry.
+
+   Per-button (preferred — explicit, no global reach):
+     <Button className="rounded-full">Save</Button>
+     <Button size="icon" className="rounded-full" />
+
+   cn() runs tailwind-merge, so rounded-full REPLACES the variant's radius
+   rather than competing with it. This is why no !important is needed.
+
+   App-wide: uncomment the rule below. It targets <button> elements only, so
+   inputs and cards are untouched. Scope it to a wrapper class if you need
+   square buttons anywhere (e.g. a segmented control).
+*/
+/*
+button {
+  border-radius: var(--radius-full);
+}
+*/

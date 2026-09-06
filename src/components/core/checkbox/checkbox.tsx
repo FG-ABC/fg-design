@@ -37,7 +37,7 @@ export const Checkbox = React.forwardRef<
         )}
         {...props}
       >
-        <CheckboxPrimitive.Indicator className="flex items-center justify-center text-white">
+        <CheckboxPrimitive.Indicator className="flex items-center justify-center text-[var(--color-on-accent)]">
           {indeterminate ? (
             <Minus className="h-3 w-3" strokeWidth={3} />
           ) : (

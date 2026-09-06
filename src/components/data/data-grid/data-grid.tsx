@@ -141,6 +141,17 @@ export interface DataGridProps<TRow> {
   className?: string;
 }
 
+/**
+ * Fallback renderer for a column with no `cell`: show the row's value at that
+ * key. Only primitives are rendered — objects and arrays would throw as React
+ * children, so those still require an explicit `cell`.
+ */
+function renderDefaultCell<TRow>(row: TRow, key: string): React.ReactNode {
+  const value = (row as Record<string, unknown>)[key];
+  if (value === null || value === undefined || typeof value === "object") return null;
+  return String(value);
+}
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const DENSITY_ROW: Record<Density, string> = {
@@ -570,7 +581,7 @@ export function DataGrid<TRow>({
                         >
                           {collapsed ? null : (
                             <div className="relative">
-                              {col.cell ? col.cell(row, ri) : null}
+                              {col.cell ? col.cell(row, ri) : renderDefaultCell(row, col.key)}
                               {cellErr && (
                                 <p className="absolute -bottom-4 left-0 text-xs text-[var(--color-danger)] whitespace-nowrap z-10">
                                   {cellErr}

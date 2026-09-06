@@ -3,6 +3,7 @@ import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { Check, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePortalContainer } from "@/components/core/portal-container";
 
 export interface AutocompleteOption {
   label: string;
@@ -33,6 +34,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
   ({ label, error, hint, placeholder = "Search…", options, value, onChange, onSearch, disabled, id, required, modal = false }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
     const isControlled = value !== undefined && onChange !== undefined;
+    const portalContainer = usePortalContainer();
     const [internalValue, setInternalValue] = React.useState<string | null>(null);
     const resolvedValue = isControlled ? (value ?? null) : internalValue;
 
@@ -147,7 +149,7 @@ export const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps
               </div>
             </div>
           </Popover.Anchor>
-          <Popover.Portal>
+          <Popover.Portal container={portalContainer}>
             <Popover.Content
               onOpenAutoFocus={(e) => e.preventDefault()}
               side="bottom"

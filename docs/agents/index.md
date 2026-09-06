@@ -96,6 +96,10 @@ Styles: `import "fg-design/styles"` once in your app entry.
 
 → [`Avatar`](components/avatar.md) — image with fallback initials, xs–xl sizes
 
+### Theming overlays inside a scoped theme
+
+→ [`PortalContainerProvider`](components/portal-container.md) — point overlays at a themed subtree instead of `document.body`
+
 ### Overlay / dialog
 
 → [`Modal`](components/modal.md) — Radix dialog, sm/md/lg/xl/full sizes
@@ -147,6 +151,9 @@ Styles: `import "fg-design/styles"` once in your app entry.
 ## Global rules
 
 - Never hardcode hex values → [`tokens.md`](tokens.md)
+- Content on an accent fill uses `--color-on-accent`, never literal `text-white`
+- Restyling for a new site (different colors, rounder buttons) → [`theming.md`](theming.md) — override tokens, never fork a component
 - Form fields always render `label`, `error`, and `hint` via the component prop — don't build your own wrapper
 - All form components are controlled/uncontrolled — pass `value` + `onChange` to control, omit both for uncontrolled
 - See [`patterns.md`](patterns.md) for common compositions: form layout, table + pagination, confirmation modal
+- Full page examples (landing pages, dashboard) live in `stories/templates/` — run `npm run dev` and open the **Templates** section

@@ -1,6 +1,6 @@
 {
   "name": "fg-design",
-  "version": "0.4.4",
+  "version": "0.5.0",
   "description": "Francis Glenn Design — soft, modern React component library",
   "license": "MIT",
   "author": "Francis Glenn <fg@oboda.ai>",
@@ -20,7 +20,8 @@
       }
     },
     "./styles": "./dist/styles/tokens.css",
-    "./styles/variables": "./dist/styles/variables.css"
+    "./styles/variables": "./dist/styles/variables.css",
+    "./styles/themes/*": "./dist/styles/themes/*"
   },
   "files": [
     "dist",

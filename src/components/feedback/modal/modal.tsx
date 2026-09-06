@@ -4,6 +4,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { usePortalContainer } from "@/components/core/portal-container";
 
 const Modal = DialogPrimitive.Root;
 const ModalTrigger = DialogPrimitive.Trigger;
@@ -60,8 +61,10 @@ const modalContentVariants = cva(
 const ModalContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & VariantProps<typeof modalContentVariants>
->(({ className, children, size, ...props }, ref) => (
-  <ModalPortal>
+>(({ className, children, size, ...props }, ref) => {
+  const portalContainer = usePortalContainer();
+  return (
+  <ModalPortal container={portalContainer}>
     <ModalOverlay />
     <DialogPrimitive.Content
       ref={ref}
@@ -82,7 +85,8 @@ const ModalContent = React.forwardRef<
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </ModalPortal>
-));
+  );
+});
 ModalContent.displayName = DialogPrimitive.Content.displayName;
 
 const ModalHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (

@@ -204,6 +204,7 @@ const columns: ColumnDef<LineItem>[] = [
 interface ColumnDef<TRow> {
   key: string;
   header: string;
+  /** Omit to render row[key] as-is. Required for objects/arrays and custom markup. */
   cell?: (row: TRow, rowIndex: number) => ReactNode;
   sortable?: boolean;
   width?: number; // px

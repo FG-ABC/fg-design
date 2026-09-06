@@ -26,7 +26,7 @@ export const Toaster = ({ theme = "system", ...props }: ToastProps) => (
         title: "font-medium text-[var(--color-ink)]",
         description: "text-[var(--color-ink)]",
         actionButton: [
-          "bg-[var(--color-accent-500)] text-white text-xs font-medium",
+          "bg-[var(--color-accent-500)] text-[var(--color-on-accent)] text-xs font-medium",
           "rounded-[var(--radius-sm)] px-3 py-1.5",
           "hover:bg-[var(--color-accent-600)]",
         ].join(" "),

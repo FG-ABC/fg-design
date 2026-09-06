@@ -29,6 +29,11 @@
   --color-accent-800: #153d2c;
   --color-accent-900: #0f2e21;
 
+  /* Foreground for content sitting ON an accent fill (button label,
+     checkbox tick, toggle knob). Override alongside the accent ramp when
+     switching to a light accent, or white text will fail contrast. */
+  --color-on-accent: #ffffff;
+
   /* Semantic */
   --color-success:         #16a34a;
   --color-success-surface: #f0fdf4;
@@ -183,6 +188,9 @@
     --color-accent-700: #bbe5ce;
     --color-accent-800: #dcf2e6;
     --color-accent-900: #f0faf4;
+
+    /* Dark ink on the light mint accent — white would give 2.7:1 (fails AA). */
+    --color-on-accent: #0f2e21;
 
     /* Semantic — slightly lighter for dark surface contrast */
     --color-success:         #4ade80;

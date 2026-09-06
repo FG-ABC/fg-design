@@ -37,7 +37,7 @@ export const Toggle = React.forwardRef<
       >
         <SwitchPrimitive.Thumb
           className={cn(
-            "pointer-events-none block rounded-[var(--radius-full)] bg-white",
+            "pointer-events-none block rounded-[var(--radius-full)] bg-[var(--color-on-accent)]",
             "shadow-[var(--shadow-sm)]",
             "transition-transform duration-[var(--duration-base)]",
             size === "sm"

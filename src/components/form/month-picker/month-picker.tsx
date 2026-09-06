@@ -3,6 +3,7 @@ import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { CalendarDays, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePortalContainer } from "@/components/core/portal-container";
 
 const MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -44,6 +45,7 @@ export const MonthPicker = React.forwardRef<HTMLButtonElement, MonthPickerProps>
   ({ label, error, hint, placeholder = "Select month…", value, onChange, disabled, min, max, id, required, modal = false }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
     const isControlled = value !== undefined && onChange !== undefined;
+    const portalContainer = usePortalContainer();
     const [internalValue, setInternalValue] = React.useState<string | null>(null);
     const resolvedValue = isControlled ? (value ?? null) : internalValue;
 
@@ -122,7 +124,7 @@ export const MonthPicker = React.forwardRef<HTMLButtonElement, MonthPickerProps>
               </span>
             </button>
           </Popover.Trigger>
-          <Popover.Portal>
+          <Popover.Portal container={portalContainer}>
             <Popover.Content
               side="bottom"
               align="start"
@@ -185,7 +187,7 @@ export const MonthPicker = React.forwardRef<HTMLButtonElement, MonthPickerProps>
                         "text-sm transition-colors duration-[var(--duration-fast)]",
                         "disabled:opacity-30 disabled:cursor-not-allowed",
                         isSelected
-                          ? "bg-[var(--color-accent-500)] text-white font-medium"
+                          ? "bg-[var(--color-accent-500)] text-[var(--color-on-accent)] font-medium"
                           : [
                               "text-[var(--color-base)] hover:bg-[var(--color-surface)]",
                               isThisMonth && "font-semibold text-[var(--color-accent-500)]",

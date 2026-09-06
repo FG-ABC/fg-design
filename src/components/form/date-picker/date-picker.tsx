@@ -3,6 +3,7 @@ import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { CalendarDays, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePortalContainer } from "@/components/core/portal-container";
 
 const DAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MONTHS = [
@@ -58,6 +59,7 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
   ({ label, error, hint, placeholder = "Select date…", value, onChange, disabled, min, max, id, required, modal = false }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
     const isControlled = value !== undefined && onChange !== undefined;
+    const portalContainer = usePortalContainer();
     const [internalValue, setInternalValue] = React.useState<string | null>(null);
     const resolvedValue = isControlled ? (value ?? null) : internalValue;
 
@@ -154,7 +156,7 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
               </span>
             </button>
           </Popover.Trigger>
-          <Popover.Portal>
+          <Popover.Portal container={portalContainer}>
             <Popover.Content
               side="bottom"
               align="start"
@@ -229,7 +231,7 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
                         "text-sm transition-colors duration-[var(--duration-fast)]",
                         "disabled:opacity-30 disabled:cursor-not-allowed",
                         isSelected
-                          ? "bg-[var(--color-accent-500)] text-white font-medium"
+                          ? "bg-[var(--color-accent-500)] text-[var(--color-on-accent)] font-medium"
                           : [
                               "text-[var(--color-base)] hover:bg-[var(--color-surface)]",
                               isToday && "font-semibold text-[var(--color-accent-500)]",

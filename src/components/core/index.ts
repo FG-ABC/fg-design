@@ -52,3 +52,5 @@ export type { SearchBarProps } from "./search-bar";
 
 export { ThemeProvider, useTheme } from "./theme";
 export { AccessibleModeProvider, useAccessibleMode } from "./accessible-mode";
+export { PortalContainerProvider, usePortalContainer } from "./portal-container";
+export type { PortalContainerProviderProps } from "./portal-container";
