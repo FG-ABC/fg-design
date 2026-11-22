@@ -61,7 +61,7 @@ Styles: `import "fg-design/styles"` once in your app entry.
 
 ### Displaying data in rows and columns
 
-→ [`DataGrid`](components/data-grid.md) — full-featured: sort, paginate, select, row actions, inline editing, column collapse, resize, footer totals
+→ [`DataGrid`](components/data-grid.md) — full-featured: sort, paginate, select, optional striped rows, row actions, inline editing, column collapse, resize, footer totals
 → [`Table`](components/table.md) — raw primitives (`Table`, `TableHead`, `TableRow`, etc.) for custom layouts
 
 **Decision rule:** Use `DataGrid` for any real data table. Use raw `Table` primitives only when you need complete structural control.

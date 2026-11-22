@@ -124,6 +124,9 @@ export interface DataGridProps<TRow> {
   // ── Density
   density?: Density;
 
+  /** Alternates a subtle surface shade across data rows. */
+  striped?: boolean;
+
   // ── Datagrid mode (inline editable rows)
   datagrid?: boolean;
   /** Called when user clicks "Add row". Return value is the new row draft. */
@@ -269,6 +272,7 @@ export function DataGrid<TRow>({
   collapsedColumns: collapsedColumnsProp,
   onCollapsedColumnsChange,
   density = "default",
+  striped = false,
   datagrid = false,
   onAddRow,
   addRowLabel = "Add row",
@@ -545,7 +549,10 @@ export function DataGrid<TRow>({
                       onRowClick && "cursor-pointer",
                       isSelected
                         ? "bg-[var(--color-accent-50)] hover:bg-[var(--color-accent-100)]/60"
-                        : "hover:bg-[var(--color-surface)]"
+                        : cn(
+                            striped && ri % 2 === 1 && "bg-[var(--color-surface)]",
+                            "hover:bg-[var(--color-overlay)]"
+                          )
                     )}
                   >
                     {hasSelection && (

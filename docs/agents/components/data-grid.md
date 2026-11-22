@@ -23,6 +23,14 @@ const columns: ColumnDef<User>[] = [
 <DataGrid columns={columns} rows={users} rowKey={(r) => r.id} />;
 ```
 
+## Alternating row colors
+
+Use `striped` for dense tables where a subtle alternating surface helps readers track rows. Selection and hover colors remain stronger than the stripe.
+
+```tsx
+<DataGrid columns={columns} rows={users} rowKey={(r) => r.id} striped />
+```
+
 ## Sorting (server-side)
 
 ```tsx
@@ -239,7 +247,8 @@ interface ColumnDef<TRow> {
 | `showFooter`        | `boolean`                               | `false`               |
 | `resizable`         | `boolean`                               | `false`               |
 | `density`           | `compact \| default \| comfortable`     | `default`             |
-| `datagrid`          | `boolean`                               | `false`               |
+| `striped`           | `boolean`                                 | `false`               |
+| `datagrid`          | `boolean`                                 | `false`               |
 | `onAddRow`          | `() => void`                            | —                     |
 | `onDeleteRow`       | `(row: TRow, index: number) => void`    | —                     |
 | `cellErrors`        | `Record<key, Record<colKey, string>>`   | —                     |
