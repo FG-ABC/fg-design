@@ -113,6 +113,17 @@ export const Default: Story = {
   ),
 };
 
+export const Striped: Story = {
+  render: () => (
+    <DataGrid
+      columns={BASE_COLUMNS}
+      rows={EMPLOYEES}
+      rowKey={(r) => r.id}
+      striped
+    />
+  ),
+};
+
 export const WithSorting: Story = {
   render: () => {
     const [sort, setSort] = React.useState<SortState | null>(null);
